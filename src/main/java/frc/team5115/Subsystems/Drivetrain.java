@@ -41,17 +41,13 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public void TankDrive(double x, double y, double throttle) { 
-        System.out.println("x = " + x);
-        System.out.println("y = " + y);
         leftSpd = (x-y) * throttle;
         rightSpd = (x+y) * throttle;
-        System.out.println("Setting Right Pair to :" + (int) rightSpd * 100);
-        System.out.println("Setting Left Pair to :" + (int) leftSpd * 100);
 
         frontLeft.set(ControlMode.PercentOutput, leftSpd);
         frontRight.set(ControlMode.PercentOutput, rightSpd);
-        backLeft.set(ControlMode.PercentOutput, leftSpd);
-        backRight.set(ControlMode.PercentOutput, rightSpd);
+        //backLeft.set(ControlMode.PercentOutput, leftSpd);
+        //backRight.set(ControlMode.PercentOutput, rightSpd);
     }
     public void MecanumSimpleDrive(double y, double x, double z) {
         frontLeftSpeed = (-x + y + z);
@@ -72,10 +68,10 @@ public class Drivetrain extends SubsystemBase{
 
     public void autodrive(){
         System.out.println("STARTING AUTO DRIVE");
-        frontLeft.set(ControlMode.PercentOutput, 0.5);
-        frontRight.set(ControlMode.PercentOutput, 0.5);
-        backLeft.set(ControlMode.PercentOutput, 0.5);
-        backRight.set(ControlMode.PercentOutput, 0.5);
+        frontLeft.set(ControlMode.PercentOutput, 0.15);
+        frontRight.set(ControlMode.PercentOutput, 0.15);
+        backLeft.set(ControlMode.PercentOutput, 0.15);
+        backRight.set(ControlMode.PercentOutput, 0.15);
     }
 
     

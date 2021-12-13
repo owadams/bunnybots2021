@@ -13,14 +13,11 @@ import frc.team5115.Robot.*;
 public class RobotContainer {
 
     public Drivetrain drivetrain;
-    public final Shooter shooter = new Shooter();
-    public final Intake intake = new Intake();
-    public final Climber climber = new Climber();
-    public final Feeder feeder = new Feeder();
+    public final BunnyManipulator bunny = new BunnyManipulator();
     public final DriveForward DriveForward = new DriveForward(drivetrain);
     public final Joystick joy = new Joystick(0);
-   // public final Mecanum cart = new Mecanum();
-  
+    public final Arm arm = new Arm();
+
 
     public RobotContainer() {
         drivetrain = new Drivetrain(this);
@@ -28,52 +25,36 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+       // new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new InstantCommand(bunny::moveforward)).whenReleased(new InstantCommand(bunny::stop));
+       // new JoystickButton(joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new InstantCommand(bunny::moveBackward)).whenReleased(new InstantCommand(bunny::stop));
 
-        new JoystickButton(joy, SHOOTER_BUTTON_ID).whenHeld(new InstantCommand(shooter::shoot)).whenReleased(new InstantCommand(shooter::stopShoot));
-        new JoystickButton(joy, WINCH_BUTTON_ID).whenHeld(new InstantCommand(climber::StartWinch)).whenReleased(new InstantCommand(climber::StopClimb));
-        new JoystickButton(joy, INTAKE_BUTTON_ID).whenHeld(new InstantCommand(intake::driverIntake).alongWith(new InstantCommand(feeder::moveCells))).whenReleased(new InstantCommand(intake::stopIntake).alongWith(new InstantCommand(feeder::stopCells)));
-        new JoystickButton(joy, INTAKE_REVERSE_ID).whenHeld(new InstantCommand(intake::spitout).alongWith(new InstantCommand(feeder::spit))).whenReleased(new InstantCommand(intake::stopIntake).alongWith(new InstantCommand(feeder::stopCells)));
-       
-        //cart.setDefaultCommand(new mecanumDefaultCommand(cart, joy).perpetually());
-        drivetrain.setDefaultCommand(new driveDefaultCommand(drivetrain, joy).perpetually());
+       new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new InstantCommand(arm::moveUp)).whenReleased(new InstantCommand(arm::stop));
+       new JoystickButton( joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new InstantCommand(arm::moveDown)).whenReleased(new InstantCommand(arm::stop));
+  
+       //drivetrain.setDefaultCommand(new driveDefaultCommand(drivetrain, joy).perpetually());
+
     }
 
    static class driveDefaultCommand extends CommandBase {
-
         Drivetrain drivetrain;
-        Joystick joystick;
+        Joystick joy;
 
         public driveDefaultCommand(Drivetrain drivetrain, Joystick joystick) {
             addRequirements(drivetrain);
             this.drivetrain = drivetrain;
-            this.joystick = joystick;
+            joy = joystick;
         }
 
         @Override
         public void execute() {
-           drivetrain.MecanumSimpleDrive(joystick.getRawAxis(JOY_X_AXIS_ID), joystick.getRawAxis(JOY_Y_AXIS_ID), joystick.getRawAxis(JOY_Z_AXIS_ID));
+            if(MECANUM){
+                drivetrain.MecanumSimpleDrive(joy.getRawAxis(JOY_X_AXIS_ID), joy.getRawAxis(JOY_Y_AXIS_ID), joy.getRawAxis(JOY_Z_AXIS_ID));
+            }
+            else{
+                drivetrain.TankDrive(joy.getRawAxis(PILOT_X_AXIS_ID), joy.getRawAxis(PILOT_Y_AXIS_ID),1);
+            }
         }
     }
-/*
-    static class mecanumDefaultCommand extends CommandBase {
-
-        Mecanum cart;
-        Joystick joystick;
-        double gyroangle = 0;
-
-        public mecanumDefaultCommand(Mecanum cart, Joystick joystick) {
-            addRequirements(cart);
-            this.cart = cart;
-            this.joystick = joystick;
-        }
-
-        @Override
-        public void execute() {
-           cart.simpleDrive(joystick.getRawAxis(XBOX_X_AXIS_ID), joystick.getRawAxis(XBOX_Y_AXIS_ID), joystick.getRawAxis(XBOX_Z_AXIS_ID));
-            //drivetrain.drive(-.5, -.5, 1);
-        }
-    }
-    */
 
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
