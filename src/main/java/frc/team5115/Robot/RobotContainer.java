@@ -8,12 +8,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team5115.Commands.Auto.DriveForward;
 import frc.team5115.Subsystems.*;
 import static frc.team5115.Constants.*;
-import frc.team5115.Robot.*;
 
 public class RobotContainer {
 
     public Drivetrain drivetrain;
-    public final BunnyManipulator bunny = new BunnyManipulator();
     public final DriveForward DriveForward = new DriveForward(drivetrain);
     public final Joystick joy = new Joystick(0);
     public final Arm arm = new Arm();
@@ -25,13 +23,13 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-       // new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new InstantCommand(bunny::moveforward)).whenReleased(new InstantCommand(bunny::stop));
-       // new JoystickButton(joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new InstantCommand(bunny::moveBackward)).whenReleased(new InstantCommand(bunny::stop));
+       new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new InstantCommand(arm::moveUp)).whenReleased(new InstantCommand(arm::idle));
+       new JoystickButton(joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new InstantCommand(arm::moveDown)).whenReleased(new InstantCommand(arm::stop));
 
-       new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new InstantCommand(arm::moveUp)).whenReleased(new InstantCommand(arm::stop));
-       new JoystickButton( joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new InstantCommand(arm::moveDown)).whenReleased(new InstantCommand(arm::stop));
+      // new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new ArmUpGroup(arm)).whenReleased(new Stop(arm));
+      // new JoystickButton( joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new MoveDown(arm)).whenReleased(new Stop(arm));
   
-       //drivetrain.setDefaultCommand(new driveDefaultCommand(drivetrain, joy).perpetually());
+       drivetrain.setDefaultCommand(new driveDefaultCommand(drivetrain, joy).perpetually());
 
     }
 
@@ -57,9 +55,9 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
         return DriveForward;
     }
+
     public void startTeleop(){
             System.out.println("Starting teleop");
         }

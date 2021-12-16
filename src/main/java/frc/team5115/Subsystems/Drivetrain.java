@@ -15,6 +15,9 @@ public class Drivetrain extends SubsystemBase{
     private TalonSRX backLeft;
     private TalonSRX backRight;
 
+    private double throttle;
+    private boolean turbomode; 
+
     private double frontLeftSpeed;
     private double frontRightSpeed;
     private double backLeftSpeed;
@@ -25,6 +28,9 @@ public class Drivetrain extends SubsystemBase{
 
 
     public Drivetrain(RobotContainer x) {
+        turbomode = false; 
+        throttle = 0.5;
+
         frontLeft = new TalonSRX(FRONT_LEFT_MOTOR_ID);
         frontRight = new TalonSRX(FRONT_RIGHT_MOTOR_ID);
         backLeft = new TalonSRX(BACK_LEFT_MOTOR_ID);
@@ -58,12 +64,20 @@ public class Drivetrain extends SubsystemBase{
         frontLeftSpeed = (-y + x + z);
         backLeftSpeed = (-y + x - z);
         frontRightSpeed = (y +  x + z);
-        backRightSpeed = (y + x - z);*/
+        backRightSpeed = (y + x - z);  */
+        if(turbomode){
+            frontLeft.set(ControlMode.PercentOutput, frontLeftSpeed);
+            frontRight.set(ControlMode.PercentOutput, frontRightSpeed);
+            backLeft.set(ControlMode.PercentOutput, backLeftSpeed);
+            backRight.set(ControlMode.PercentOutput, backRightSpeed);
+        }
+        else{
+            frontLeft.set(ControlMode.PercentOutput, frontLeftSpeed*throttle);
+            frontRight.set(ControlMode.PercentOutput, frontRightSpeed*throttle);
+            backLeft.set(ControlMode.PercentOutput, backLeftSpeed*throttle);
+            backRight.set(ControlMode.PercentOutput, backRightSpeed*throttle);
+        }
         
-        frontLeft.set(ControlMode.PercentOutput, frontLeftSpeed);
-        frontRight.set(ControlMode.PercentOutput, frontRightSpeed);
-        backLeft.set(ControlMode.PercentOutput, backLeftSpeed);
-        backRight.set(ControlMode.PercentOutput, backRightSpeed);
     }
 
     public void autodrive(){
@@ -72,6 +86,13 @@ public class Drivetrain extends SubsystemBase{
         frontRight.set(ControlMode.PercentOutput, 0.15);
         backLeft.set(ControlMode.PercentOutput, 0.15);
         backRight.set(ControlMode.PercentOutput, 0.15);
+    }
+
+    public void turnOnTurbo(){
+        turbomode = true;
+    }
+    public void turnOffTubo(){
+        turbomode = false;
     }
 
     

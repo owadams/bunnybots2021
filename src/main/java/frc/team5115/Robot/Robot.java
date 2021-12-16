@@ -3,28 +3,23 @@ package frc.team5115.Robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import static frc.team5115.Constants.*;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
+import frc.team5115.Subsystems.*;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Robot extends TimedRobot {
     private Command autoCommand;
     private RobotContainer robotContainer;
+    private Drivetrain drivetrain;
 
-    private TalonSRX frontLeft;
-    private TalonSRX frontRight;
-    private TalonSRX backLeft;
-    private TalonSRX backRight;
+
 
    
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
-        frontLeft = new TalonSRX(FRONT_LEFT_MOTOR_ID);
-        frontRight = new TalonSRX(FRONT_RIGHT_MOTOR_ID);
-        backLeft = new TalonSRX(BACK_LEFT_MOTOR_ID);
-        backRight = new TalonSRX(BACK_RIGHT_MOTOR_ID);
+        drivetrain = new Drivetrain(robotContainer);
+
     }
 
     @Override
@@ -42,7 +37,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-       autoCommand = robotContainer.getAutonomousCommand();
+     //  autoCommand = robotContainer.getAutonomousCommand();
         
 /*
         // schedule the autonomous command (example)
@@ -60,7 +55,8 @@ public class Robot extends TimedRobot {
 
 
         public void autonomousPeriodic() {
-           robotContainer.getAutonomousCommand();
+      //  drivetrain.setDefaultCommand(new InstantCommand(drivetrain::autodrive)).perpetually());
+           drivetrain.autodrive();
       
         }
 
