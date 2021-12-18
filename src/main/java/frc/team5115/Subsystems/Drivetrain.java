@@ -28,7 +28,7 @@ public class Drivetrain extends SubsystemBase{
 
 
     public Drivetrain(RobotContainer x) {
-        turbomode = false; 
+        turbomode = true; 
         throttle = 0.5;
 
         frontLeft = new TalonSRX(FRONT_LEFT_MOTOR_ID);
@@ -65,34 +65,30 @@ public class Drivetrain extends SubsystemBase{
         backLeftSpeed = (-y + x - z);
         frontRightSpeed = (y +  x + z);
         backRightSpeed = (y + x - z);  */
-        if(turbomode){
-            frontLeft.set(ControlMode.PercentOutput, frontLeftSpeed);
-            frontRight.set(ControlMode.PercentOutput, frontRightSpeed);
-            backLeft.set(ControlMode.PercentOutput, backLeftSpeed);
-            backRight.set(ControlMode.PercentOutput, backRightSpeed);
-        }
-        else{
+
             frontLeft.set(ControlMode.PercentOutput, frontLeftSpeed*throttle);
             frontRight.set(ControlMode.PercentOutput, frontRightSpeed*throttle);
             backLeft.set(ControlMode.PercentOutput, backLeftSpeed*throttle);
             backRight.set(ControlMode.PercentOutput, backRightSpeed*throttle);
-        }
         
     }
 
     public void autodrive(){
         System.out.println("STARTING AUTO DRIVE");
-        frontLeft.set(ControlMode.PercentOutput, 0.15);
-        frontRight.set(ControlMode.PercentOutput, 0.15);
-        backLeft.set(ControlMode.PercentOutput, 0.15);
-        backRight.set(ControlMode.PercentOutput, 0.15);
+        frontLeft.set(ControlMode.PercentOutput, 0.14);
+        frontRight.set(ControlMode.PercentOutput, -0.14);
+        backLeft.set(ControlMode.PercentOutput, 0.14);
+        backRight.set(ControlMode.PercentOutput, -0.14);
     }
 
     public void turnOnTurbo(){
         turbomode = true;
+        throttle = 1;
     }
     public void turnOffTubo(){
         turbomode = false;
+        throttle = 0.5;
+        System.out.println("turbo mode off");
     }
 
     

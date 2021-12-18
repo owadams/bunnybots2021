@@ -29,6 +29,7 @@ public class Constants{
     
     public static final byte BUNNY_UP_BUTTON_ID = 1;
     public static final byte BUNNY_DOWN_BUTTON_ID = 2;
+    public static final byte TURBO_MODE_BUTTON_ID = 3;
 
     //X-Box
     public static byte JOY_Y_AXIS_ID = 1;

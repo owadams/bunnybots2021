@@ -25,11 +25,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
        new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new InstantCommand(arm::moveUp)).whenReleased(new InstantCommand(arm::idle));
        new JoystickButton(joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new InstantCommand(arm::moveDown)).whenReleased(new InstantCommand(arm::stop));
-
+       new JoystickButton(joy, TURBO_MODE_BUTTON_ID).whileHeld(new InstantCommand(drivetrain::turnOffTubo)).whenReleased(new InstantCommand(drivetrain::turnOnTurbo));
       // new JoystickButton( joy, BUNNY_UP_BUTTON_ID).whileHeld(new ArmUpGroup(arm)).whenReleased(new Stop(arm));
       // new JoystickButton( joy, BUNNY_DOWN_BUTTON_ID).whileHeld(new MoveDown(arm)).whenReleased(new Stop(arm));
   
-       drivetrain.setDefaultCommand(new driveDefaultCommand(drivetrain, joy).perpetually());
+      // drivetrain.setDefaultCommand(new driveDefaultCommand(drivetrain, joy).perpetually());
 
     }
 

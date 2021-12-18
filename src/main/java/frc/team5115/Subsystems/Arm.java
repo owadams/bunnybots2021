@@ -27,7 +27,7 @@ public class Arm extends SubsystemBase {
             arm.set(ControlMode.PercentOutput, idleSpeed);
         System.out.println("idle");
         }*/
-        arm.set(ControlMode.PercentOutput, 1);
+        arm.set(ControlMode.PercentOutput, .75);
         System.out.println("moving up!!");
         
     }
